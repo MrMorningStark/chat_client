@@ -54,15 +54,20 @@
     text-shadow: #D6E4E5 2px 2px 15px;
 }
 
+.chat-icon {
+    font-size: 28px;
+    padding-right: 7px;
+}
+
 .chat-text {
     display: grid;
-    grid-template-columns: 30px auto;
+    grid-template-columns: auto auto;
 
 }
 
 .chat-text .chat-icon {
     list-style: none;
-    padding-top: 9px;
+    padding-top: 2px;
 }
 
 .chat-text p {

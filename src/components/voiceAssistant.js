@@ -7,8 +7,6 @@ import InputBoxWithMicrophone from './InputBoxWithMicrophone';
 
 const VoiceAssistant = () => {
 
-  const [isRecording, setIsRecording] = useState(false);
-  const [micDisabled, setMicDisabled] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [prompt, setPrompt] = useState('');
@@ -22,23 +20,6 @@ const VoiceAssistant = () => {
     }
   });
 
-  const loadTranscript = async (result) => {
-    const beforeLoadData = [...data];
-    const forShowOnly = [...data, { role: "user", content: result }];
-    setData(forShowOnly);
-    setIsLoading(true);
-    setMicDisabled(true);
-
-    const res = await getResponse({ data: beforeLoadData, text: result });
-
-    if (res.success) {
-      setData(res.data);
-      speakResponse(res.data[res.data.length - 1].content);
-    }
-
-    setIsLoading(false);
-    setMicDisabled(false);
-  }
 
   const getAiResponse = async (prompt) => {
     setPrompt('');
@@ -65,7 +46,6 @@ const VoiceAssistant = () => {
     utterance.pitch = 1;
     window.speechSynthesis.cancel();
     window.speechSynthesis.speak(utterance);
-    setMicDisabled(false);
   };
 
   const stopRecording = (prompt) => {

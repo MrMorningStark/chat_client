@@ -21,7 +21,7 @@ const ChatArea = ({ data, isLoading }) => {
       {data.map((d, index) => (
         <div key={index} className={d.role === 'user' ? 'user' : 'assistant'}>
           <div class="chat-text" style={{ margin: 0 }}>
-            <li className="chat-icon">{d.role === 'user' ? '🧔🏻‍♂️   ' : ' 🤖   '}</li>
+            <li className="chat-icon">{d.role === 'user' ? '🧔🏻' : '🤖'}</li>
             <p>{d.content}</p>
           </div>
         </div>
