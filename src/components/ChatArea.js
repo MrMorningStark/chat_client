@@ -20,13 +20,21 @@ const ChatArea = ({ data, isLoading }) => {
     <div className='chat-area' ref={bottomRef} >
       {data.map((d, index) => (
         <div key={index} className={d.role === 'user' ? 'user' : 'assistant'}>
-          <p style={{ margin: 0 }}>{d.role === 'user' ? '🧔🏻‍♂️' : '🤖'}{d.content}</p>
+          <div class="chat-text" style={{ margin: 0 }}>
+            <li className="chat-icon">{d.role === 'user' ? '🧔🏻‍♂️   ' : ' 🤖   '}</li>
+            <p>{d.content}</p>
+          </div>
         </div>
       ))}
       <div className="list-bottom"></div>
-      {isLoading && (
+      {/* {isLoading && (
         <div className='assistant'>
           <p className='fa-bounce' style={{ margin: 0 }}>🧠</p>
+        </div>
+      )} */}
+      {isLoading && (
+        <div className='assistant loading'>
+          <div className="loading-icon">🚀</div>
         </div>
       )}
     </div>
