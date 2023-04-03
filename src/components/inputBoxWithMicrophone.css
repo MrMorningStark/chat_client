@@ -1,0 +1,118 @@
+.input-area {
+    position: fixed;
+    bottom: 0;
+    height: 100px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #000000;
+    background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
+    padding-left: 35px;
+    z-index: 9999;
+}
+
+.input-box {
+    width: 60%;
+    height: 60px;
+    padding: 0 20px;
+    border-radius: 50px;
+    box-shadow: 1px 1px 8px whitesmoke;
+    border: 2px solid;
+    animation: border-color 5s ease-in-out infinite;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.input-box:focus {
+    outline: none;
+    box-shadow: 1px 1px 5px whitesmoke;
+    animation: border-color 2s ease-in-out infinite;
+}
+
+.input-box:disabled {
+    outline: none;
+    background-color: white;
+    opacity: 0.6;
+    box-shadow: 1px 1px 10px whitesmoke;
+    border: 2px solid whitesmoke;
+    animation: none;
+}
+
+.microphone {
+    position: relative;
+    right: 50px;
+    padding: 25px 15px;
+    border-radius: 50%;
+    cursor: pointer;
+    color: #282424;
+
+}
+
+.microphone.active {
+    animation: color 5s ease-in-out infinite, fade 1s ease-in-out infinite;
+}
+
+@keyframes border-color {
+    0% {
+        border-color: #a20fbc;
+    }
+
+    25% {
+        border-color: #3ccce3;
+    }
+
+    50% {
+        border-color: #ee2eea;
+    }
+
+    75% {
+        border-color: #ac1578;
+    }
+
+    100% {
+        border-color: #0000ff;
+    }
+}
+
+@keyframes color {
+    0% {
+        color: #f01c11;
+    }
+
+    25% {
+        color: #2b63ef;
+    }
+
+    50% {
+        color: #f03f18;
+    }
+
+    75% {
+        color: #ea00ff;
+    }
+
+    100% {
+        color: #0ecf28;
+    }
+}
+
+@keyframes fade {
+    0% {
+        opacity: 0.7;
+    }
+
+    50% {
+        opacity: 1;
+
+    }
+
+    100% {
+        opacity: 0.7;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .input-box {
+        width: 80%;
+    }
+}

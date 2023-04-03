@@ -1,53 +1,58 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { getResponse, getTranscript } from '../api/api';
+import React, { useState } from 'react';
+import { getResponse } from '../api/api';
 import { useSpeechRecognition } from 'react-speech-kit';
 import ChatArea from './ChatArea';
-import Mic from './Mic';
 import './my.css';
+import InputBoxWithMicrophone from './InputBoxWithMicrophone';
 
 const VoiceAssistant = () => {
+
   const [isRecording, setIsRecording] = useState(false);
   const [micDisabled, setMicDisabled] = useState(false);
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [value, setValue] = useState('');
+  const [prompt, setPrompt] = useState('');
 
-  const onResult = (result) => {
-    clearTimeout(timeOut);
-    setValue(result);
-    timeOut = setTimeout(() => stopListening(result), 700);
-  };
-
+  let timeoutID = 1;
   const { listen, listening, stop } = useSpeechRecognition({
-    onResult: onResult
+    onResult: (voiceInput) => {
+      clearTimeout(timeoutID);
+      setPrompt(voiceInput);
+      timeoutID = setTimeout(() => stopRecording(voiceInput), 700);
+    }
   });
 
-  const bottomRef = useRef();
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [data, isLoading, listening, setData, setIsLoading, setMicDisabled]);
-
-  let timeOut = null;
-
   const loadTranscript = async (result) => {
-    var length = 0;
-    var beforeLoadData = [...data];
-    var forShowOnly = [...data, { role: "user", content: result }];
+    const beforeLoadData = [...data];
+    const forShowOnly = [...data, { role: "user", content: result }];
     setData(forShowOnly);
     setIsLoading(true);
     setMicDisabled(true);
 
-    var res = await getResponse({ data: beforeLoadData, text: result });
+    const res = await getResponse({ data: beforeLoadData, text: result });
+
     if (res.success) {
-      length = res.data.length;
       setData(res.data);
+      speakResponse(res.data[res.data.length - 1].content);
     }
 
     setIsLoading(false);
     setMicDisabled(false);
+  }
 
-    speakResponse(res.data[length - 1].content);
+  const getAiResponse = async (prompt) => {
+    setPrompt('');
+    const forShowOnly = [...data, { role: "user", content: prompt }];
+    setData(forShowOnly);
+    setIsLoading(true);
+    const response = await getResponse({ data: data, text: prompt });
+    setIsLoading(false);
+    if (response.success) {
+      setData(response.data);
+      speakResponse(response.data[response.data.length - 1].content);
+    }
+
+
   }
 
   const speakResponse = (response) => {
@@ -63,46 +68,44 @@ const VoiceAssistant = () => {
     setMicDisabled(false);
   };
 
-  const stopListening = (result) => {
+  const stopRecording = (prompt) => {
     stop();
-    setIsRecording(false);
-    setMicDisabled(false);
-    setValue('');
-    if (result.length !== 0) {
-      loadTranscript(result);
+    if (prompt.length !== 0) {
+      getAiResponse(prompt);
     }
-  };
+  }
 
-  const scrollToBottom = () => {
-    bottomRef.current.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  };
-
-  const startListening = () => {
-    if (isRecording) {
-      stopListening(value);
+  const onMicrophoneClick = () => {
+    if (listening) {
+      stopRecording(prompt);
     } else {
-      if (!micDisabled) {
-        setMicDisabled(true);
-        setIsRecording(true);
+      if (!isLoading) {
         window.speechSynthesis.cancel();
-        listen({ lang: 'en-IN' })
+        listen({ lang: 'Google हिन्दी' })
+        // listen({ lang: 'en-IN' })
+
       }
     }
-  };
+  }
 
-  return (
-    <div className='main' ref={bottomRef}>
+  return <>
+    <div className='app-name'>BRAIN WAVE</div>
+    <div className='voice-assistant' >
       <ChatArea data={data} isLoading={isLoading} />
-      <Mic startListening={startListening} value={value} micDisabled={micDisabled} setValue={setValue}
-      isLoading={isLoading}
-      isRecording={isRecording}
-      loadTranscript={loadTranscript}
-       />
     </div>
-  );
+
+    <div className='input-area'>
+      <InputBoxWithMicrophone
+        prompt={prompt}
+        setPrompt={setPrompt}
+        listening={listening}
+        isLoading={isLoading}
+        onMicrophoneClick={onMicrophoneClick}
+        getAiResponse={getAiResponse}
+      />
+    </div>
+
+  </>
 };
 
 export default VoiceAssistant;
