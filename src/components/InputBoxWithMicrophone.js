@@ -1,13 +1,6 @@
-import { useEffect, useRef } from 'react';
 import './inputBoxWithMicrophone.css';
 
 const InputBoxWithMicrophone = ({ prompt, setPrompt, onMicrophoneClick, listening, getAiResponse, isLoading }) => {
-
-    const inputRef = useRef(null);
-
-    useEffect(() => {
-        inputRef.current.focus();
-    }, [isLoading]);
 
     const onChange = (e) => {
         setPrompt(e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1));
@@ -20,7 +13,7 @@ const InputBoxWithMicrophone = ({ prompt, setPrompt, onMicrophoneClick, listenin
     }
 
     return <>
-        <input ref={inputRef} type={'text'} disabled={listening || isLoading} value={listening && prompt.length == 0 ? '' : prompt} className={"input-box"} placeholder={listening ? 'Listening...' : "Ask anything"} onChange={onChange} onKeyUp={onEnter} />
+        <input type={'text'} disabled={listening || isLoading} value={listening && prompt.length == 0 ? '' : prompt} className={"input-box"} placeholder={listening ? 'Listening...' : "Ask anything"} onChange={onChange} onKeyUp={onEnter} />
         <i className={`microphone fa-solid fa-microphone fa-lg ${listening && 'active'}`} onClick={onMicrophoneClick} />
     </>
 }
