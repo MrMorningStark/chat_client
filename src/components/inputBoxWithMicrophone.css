@@ -8,12 +8,12 @@
     align-items: center;
     background-color: #000000;
     background-image: url("https://www.transparenttextures.com/patterns/asfalt-light.png");
-    padding-left: 35px;
+    padding-left: 20px;
     z-index: 9999;
 }
 
 .input-box {
-    width: 60%;
+    width: 70%;
     height: 60px;
     padding: 0 20px;
     border-radius: 50px;
@@ -111,8 +111,18 @@
     }
 }
 
-@media only screen and (max-width: 767px) {
+@media (max-width:1500px) {
+    .input-box {
+        width: 60%
+    }
+}
+
+@media only screen and (max-width: 1067px) {
     .input-box {
         width: 80%;
+    }
+
+    .chat-icon {
+        margin-top: -2px;
     }
 }
