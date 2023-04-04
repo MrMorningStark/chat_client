@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useEffect, useRef } from "react";
 
-const ChatArea = ({ data, isLoading }) => {
+const ChatArea = ({ data, isLoading, setPrompt, getAiResponse }) => {
 
   const bottomRef = useRef();
 
+  const [active, setActive] = useState(false);
 
   useEffect(() => {
     scrollToBottom();
@@ -16,6 +18,12 @@ const ChatArea = ({ data, isLoading }) => {
     });
   };
 
+  const onOptionClick = (option) => {
+    setActive(false);
+    setPrompt(option);
+    getAiResponse(option);
+  }
+
   return (
     <div className='chat-area' ref={bottomRef} >
       {data.map((d, index) => (
@@ -26,12 +34,16 @@ const ChatArea = ({ data, isLoading }) => {
           </div>
         </div>
       ))}
+
       <div className="list-bottom"></div>
-      {/* {isLoading && (
-        <div className='assistant'>
-          <p className='fa-bounce' style={{ margin: 0 }}>🧠</p>
-        </div>
-      )} */}
+      <div className={`assitant-options ${(active || data.length > 1) && 'none'}`}>
+        <ul>
+          <li onClick={() => onOptionClick('Excercise')}>Excercise</li>
+          <li onClick={() => onOptionClick('Recipe')}>Recipe</li>
+          <li onClick={() => onOptionClick('Blog')}>Blog</li>
+          <li onClick={() => onOptionClick('Q/A')}>Q/A</li>
+        </ul>
+      </div>
       {isLoading && (
         <div className='assistant loading'>
           <div className="loading-icon">🚀</div>

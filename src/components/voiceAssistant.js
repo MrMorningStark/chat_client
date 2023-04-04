@@ -7,7 +7,7 @@ import InputBoxWithMicrophone from './InputBoxWithMicrophone';
 
 const VoiceAssistant = () => {
 
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([{ role: "assistant", content: "How may i help you today ?" }]);
   const [isLoading, setIsLoading] = useState(false);
   const [prompt, setPrompt] = useState('');
 
@@ -71,7 +71,7 @@ const VoiceAssistant = () => {
   return <>
     <div className='app-name'>BRAIN WAVE</div>
     <div className='voice-assistant' >
-      <ChatArea data={data} isLoading={isLoading} />
+      <ChatArea data={data} isLoading={isLoading} setPrompt={setPrompt} getAiResponse={getAiResponse} />
     </div>
 
     <div className='input-area'>

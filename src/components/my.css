@@ -42,7 +42,7 @@
 
 .app-name {
     position: fixed;
-    top: 45%;
+    top: 50%;
     width: 100%;
     text-align: center;
     color: whitesmoke;
@@ -91,6 +91,35 @@
     display: flex;
 }
 
+
+.assitant-options {}
+
+.assitant-options ul {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    list-style: none;
+    padding-left: 0;
+
+}
+
+.assitant-options ul li {
+    display: flex;
+    justify-content: center;
+    color: white;
+    padding: 15px;
+    background: #212020;
+    border: #000000 1px solid;
+    cursor: pointer;
+    letter-spacing: 2px;
+}
+
+.none {
+    display: none;
+}
+
+.assitant-options ul li:hover {
+    background: rebeccapurple;
+}
 
 @keyframes span-right {
     0% {
